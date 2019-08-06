@@ -1,0 +1,7 @@
+ru\stacy\capstone\repository\UserRepository.class
+ru\stacy\capstone\security\JwtTokenFilterConfigurer.class
+ru\stacy\capstone\security\JwtTokenProvider.class
+ru\stacy\capstone\security\MyUserDetails.class
+ru\stacy\capstone\model\User.class
+ru\stacy\capstone\model\Role.class
+ru\stacy\capstone\security\JwtTokenFilter.class
