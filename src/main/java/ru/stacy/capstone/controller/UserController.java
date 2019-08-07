@@ -1,6 +1,7 @@
 package ru.stacy.capstone.controller;
 
 import io.swagger.annotations.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,6 @@ import ru.stacy.capstone.dto.UserDataDTO;
 import ru.stacy.capstone.dto.UserResponseDTO;
 import ru.stacy.capstone.model.User;
 import ru.stacy.capstone.service.UserService;
-import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,7 @@ public class UserController {
   @Autowired
   private ModelMapper modelMapper;
 
-  @PostMapping("/signin")
+  @PostMapping("/signIn")
   @ApiOperation(value = "${UserController.signin}")
   @ApiResponses(value = {//
       @ApiResponse(code = 400, message = "Something went wrong"), //
@@ -34,7 +34,7 @@ public class UserController {
     return userService.signIn(username, password);
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/signUp")
   @ApiOperation(value = "${UserController.signup}")
   @ApiResponses(value = {//
       @ApiResponse(code = 400, message = "Something went wrong"), //

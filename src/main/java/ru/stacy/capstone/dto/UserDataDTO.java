@@ -11,6 +11,17 @@ public class UserDataDTO {
   private String username;
   @ApiModelProperty(position = 1)
   private String email;
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  private String password;
+
   @ApiModelProperty(position = 2)
   List<Role> roles;
 
