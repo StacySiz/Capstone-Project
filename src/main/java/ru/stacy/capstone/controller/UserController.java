@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.stacy.capstone.dto.UserDataDTO;
+import ru.stacy.capstone.dto.UserDTO;
 import ru.stacy.capstone.dto.UserResponseDTO;
 import ru.stacy.capstone.model.User;
 import ru.stacy.capstone.service.UserService;
@@ -41,7 +41,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Access denied"), //
       @ApiResponse(code = 422, message = "Username is already in use"), //
       @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-  public String signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
+  public String signup(@ApiParam("Signup User") @RequestBody UserDTO user) {
     return userService.signUp(modelMapper.map(user, User.class));
   }
 
@@ -78,7 +78,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Access denied"), //
       @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
   public UserResponseDTO whoami(HttpServletRequest req) {
-    return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+      return modelMapper.map(userService.getLoggedInUser(req), UserResponseDTO.class);
   }
 
   @GetMapping("/refresh")

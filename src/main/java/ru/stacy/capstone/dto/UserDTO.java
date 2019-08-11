@@ -5,22 +5,12 @@ import ru.stacy.capstone.model.Role;
 
 import java.util.List;
 
-public class UserDataDTO {
+public class UserDTO {
   
   @ApiModelProperty(position = 0)
   private String username;
   @ApiModelProperty(position = 1)
   private String email;
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  private String password;
 
   @ApiModelProperty(position = 2)
   List<Role> roles;

@@ -32,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()//
         .antMatchers("/users/signIn").permitAll()//
         .antMatchers("/users/signUp").permitAll()//
-        .anyRequest().authenticated();
-
-    http.exceptionHandling().accessDeniedPage("/login");
+//        .anyRequest().authenticated();
+            .anyRequest().permitAll();//TODO remove
+//    http.exceptionHandling().accessDeniedPage("/login");
 
     // Apply JWT
     http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));

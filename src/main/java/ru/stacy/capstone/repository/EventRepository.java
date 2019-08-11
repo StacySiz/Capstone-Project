@@ -5,3 +5,4 @@ import ru.stacy.capstone.model.Event;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 }
+

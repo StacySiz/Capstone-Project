@@ -1,15 +1,22 @@
 package ru.stacy.capstone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +30,8 @@ public class Event {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    private String address;
+    @OneToMany
+    private List<Place> potentialPlaces;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
