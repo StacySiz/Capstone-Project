@@ -36,17 +36,15 @@ public class EventNotificationService implements EmailService {
         List<String> guests = invitationDTO.getGuests();
         for (String guest : guests){
             try {
-                message.setContent(templateHelper.getInvitationMessageText(invitationDTO), "text/html");
-                MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
+                message.setText(templateHelper.getInvitationMessageText(invitationDTO));
+                MimeMessageHelper messageHelper = new MimeMessageHelper(message, false);
                 messageHelper.setTo(guest);
                 messageHelper.setSubject(EVENT_INVITATION);
+                javaMailSender.send(message);
                 logger.info("Email to " + guest + " was sent");
-//                messageHelper.setText(text, true);
-
             } catch (MessagingException e) {
                 throw new IllegalArgumentException(e);
             }
         }
-        javaMailSender.send(message);
     }
 }

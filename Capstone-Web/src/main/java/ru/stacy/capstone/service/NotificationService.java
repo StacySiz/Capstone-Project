@@ -28,6 +28,14 @@ public class NotificationService {
 
         Event event = eventRepository.findOne(eventId);
 
+        InvitationEventInfoDTO invitation = createInvitation(event, emailList);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        return restTemplate.postForObject(emailNotificationURL + "/email", invitation, ResponseEntity.class);
+    }
+
+    private InvitationEventInfoDTO createInvitation(Event event, List<String> emailList) {
         InvitationEventInfoDTO invitation = new InvitationEventInfoDTO();
         invitation.setName(event.getName());
         invitation.setDescription(event.getDescription());
@@ -35,15 +43,6 @@ public class NotificationService {
         invitation.setPrice(event.getPrice());
         invitation.setGuests(emailList);
 
-        //TODO email people and invite
-        RestTemplate restTemplate = new RestTemplate();
-//        HttpEntity<Event> request = new HttpEntity<>(map);
-
-        ResponseEntity responseEntity = restTemplate.postForObject(emailNotificationURL + "/email", invitation, ResponseEntity.class);
-
-return responseEntity;
-//        ResponseEntity<Event> response = restTemplate
-//                .exchange(emailNotificationURL, HttpMethod.POST, request, Event.class);
-//        return null;
+        return invitation;
     }
 }

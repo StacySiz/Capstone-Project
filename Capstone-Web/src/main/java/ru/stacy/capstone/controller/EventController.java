@@ -12,7 +12,6 @@ import ru.stacy.capstone.service.NotificationService;
 import ru.stacy.capstone.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,10 +80,7 @@ public class EventController {
     }
 
     @PostMapping("{id}/invite")
-    public ResponseEntity inviteToEvent(@PathVariable Long id, @RequestBody String email) {
-        List<String> emails = new ArrayList<>();
-        emails.add(email);
-        //TODO someting with list
+    public ResponseEntity inviteToEvent(@PathVariable Long id, @RequestBody List<String> emails) {
         ResponseEntity responseEntity = notificationService.inviteFriendsToEvent(id, emails);
         return ResponseEntity.ok(responseEntity);
     }
