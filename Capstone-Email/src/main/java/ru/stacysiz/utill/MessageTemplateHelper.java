@@ -21,6 +21,13 @@ public class MessageTemplateHelper {
         return invitationMessage;
     }
 
+    public String getVerifyAccountMeassge(String verifyLink){
+        String verifyMessage = "Welcome to local stand up club!" + System.lineSeparator() +
+                "To activate your account click this link! " + verifyLink;
+
+        return verifyMessage;
+    }
+
     private String getEventFreeMessage(){
         return "AND THAT'S ALL FOR FREE!" + System.lineSeparator() + "COME AND HAVE FUN!";
     }

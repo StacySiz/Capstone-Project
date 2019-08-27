@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.stacysiz.models.InvitationDTO;
 import ru.stacysiz.services.EmailService;
 
+import java.util.Map;
+
+@RequestMapping("/notification")
 @Controller
 public class NotificationController {
 
@@ -23,11 +26,28 @@ public class NotificationController {
         this.emailService = emailService;
     }
 
-    @RequestMapping("/notification/email")
-    public Object sendNotification(@RequestBody InvitationDTO invitation) {
-        logger.info("Notification");
+    @RequestMapping("/email")
+    public ResponseEntity sendNotification(@RequestBody InvitationDTO invitation) {
+        logger.info("Email notification");
         emailService.sendEmail(invitation);
 
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping("/verify")
+    public ResponseEntity sendVerificationLink(@RequestBody Map<String,String> mailAndToken){
+        logger.info("Verify notification");
+        emailService.sendVerifyEmail(mailAndToken);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+
+
+
+
+
+
+
 }

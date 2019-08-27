@@ -17,6 +17,7 @@ public class EventDTO {
 
     private List<PlaceDTO> potentialPlaces;
 
+    //TODO make another user dto
     private Set<UserDTO> participants;
 
     private boolean isFree;

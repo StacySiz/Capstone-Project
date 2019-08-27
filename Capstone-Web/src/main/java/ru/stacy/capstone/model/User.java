@@ -31,6 +31,8 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    private boolean enabled;
+
 //    @ManyToMany(mappedBy = "participants")
 //    @JsonIgnore
 //    @JsonManagedReference

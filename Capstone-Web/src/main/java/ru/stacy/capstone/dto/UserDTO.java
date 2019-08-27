@@ -18,6 +18,8 @@ public class UserDTO {
   @ApiModelProperty(position = 1)
   private String email;
 
+    private String password;
+
   @ApiModelProperty(position = 2)
   List<Role> roles;
 }
