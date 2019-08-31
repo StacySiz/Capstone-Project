@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>stacy-siz</groupId>
-    <artifactId>stacy-siz</artifactId>
+    <artifactId>web-stand-up</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -54,6 +54,7 @@
             <!-- Use MySQL Connector-J -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.13</version>
         </dependency>
         <dependency>
             <!-- Automated JSON API documentation for API's built with Spring -->
