@@ -12,6 +12,8 @@ import ru.stacy.capstone.dto.UserResponseDTO;
 import ru.stacy.capstone.model.User;
 import ru.stacy.capstone.repository.EventRepository;
 import ru.stacy.capstone.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 

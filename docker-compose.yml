@@ -12,6 +12,11 @@ services:
     - MYSQL_ROOT_PASSWORD=root
     volumes:
     - mysql-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 60s
+      retries: 5
 
   webapp:
     container_name: webapp
@@ -26,14 +31,24 @@ services:
     - DATABASE_USER=root
     - DATABASE_PASSWORD=root
     - DATABASE_PORT=3306
+    healthcheck:
+      test: curl -sS http://127.0.0.1 || echo 1
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
   notification-app:
-    container_name: notification-app
+#    container_name: notification-app
     build: ./Capstone-Email
     depends_on:
       - webapp
     ports:
-      - "8081:8081"
+      - "8081"
+    healthcheck:
+      test: curl -sS http://127.0.0.1 || echo 1
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
 volumes:
   mysql-db:
