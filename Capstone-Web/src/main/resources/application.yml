@@ -1,8 +1,10 @@
 spring:
+  application:
+    name: webapp
   datasource:
-    url: jdbc:mysql://mysql:3306/capstone
+    url: jdbc:mysql://localhost:3306/capstone?serverTimezone=UTC
     username: root
-    password: root
+    password: garage2
     driverClassName: com.mysql.jdbc.Driver
   #  tomcat:
   #    max-wait: 20000
@@ -35,7 +37,13 @@ UserController:
   search: Returns specific user by username
   me: Returns current user's data
 server:
-  port: 8080
+  port: 8082
 
 services:
   email: http://notification-app:8081/notification
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://eureka-server:8061/eureka/
