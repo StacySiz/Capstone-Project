@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://mysql:3306/capstone
     username: root
-    password: garage2
+    password: root
     driverClassName: com.mysql.jdbc.Driver
   #  tomcat:
   #    max-wait: 20000
@@ -38,4 +38,4 @@ server:
   port: 8080
 
 services:
-  email: http://localhost:8081/notification
+  email: http://notification-app:8081/notification

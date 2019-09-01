@@ -28,6 +28,8 @@ public class UserController {
 
     private EventRepository eventRepository;
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     public UserController(UserService userService, ModelMapper modelMapper, EventRepository eventRepository) {
         this.userService = userService;
@@ -91,6 +93,7 @@ public class UserController {
     @GetMapping("/verify")
     public ResponseEntity verifyAccount(@RequestParam String token) {
         if (userService.verify(token).equals(TOKEN_VALID)) {
+            logger.info("Account is ok");
             return ResponseEntity.ok().build();
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

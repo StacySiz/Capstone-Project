@@ -8,7 +8,7 @@ services:
     environment:
     - MYSQL_DATABASE=capstone
     - MUSQL_USER=root
-    - MYSQL_PASSWORD=garage2
+    - MYSQL_PASSWORD=root
     - MYSQL_ROOT_PASSWORD=root
     volumes:
     - mysql-db:/var/lib/mysql
@@ -24,16 +24,16 @@ services:
     - DATABASE_HOST=mysql
     - DATABASE_NAME=capstone
     - DATABASE_USER=root
-    - DATABASE_PASSWORD=garage2
+    - DATABASE_PASSWORD=root
     - DATABASE_PORT=3306
 
-#  notificationApp:
-#    container_name: notification-app
-#    build: ./Capstone-Email
-#    depends_on:
-#      - webapp
-#    ports:
-#      - "8081:8081"
+  notification-app:
+    container_name: notification-app
+    build: ./Capstone-Email
+    depends_on:
+      - webapp
+    ports:
+      - "8081:8081"
 
 volumes:
   mysql-db:
