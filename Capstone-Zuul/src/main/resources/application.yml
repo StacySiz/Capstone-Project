@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: zuul
+server:
+  port: 8080
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://eureka:8761/eureka/
