@@ -2,15 +2,11 @@ spring:
   application:
     name: webapp
   datasource:
-    url: jdbc:mysql://localhost:3306/capstone?serverTimezone=UTC
+    url: jdbc:mysql://mysql:3306/capstone?serverTimezone=UTC
     username: root
     password: garage2
     driverClassName: com.mysql.jdbc.Driver
-  #  tomcat:
-  #    max-wait: 20000
-  #    max-active: 50
-  #    max-idle: 20
-  #    min-idle: 15
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -45,5 +41,5 @@ services:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-#      defaultZone: http://eureka-server:8061/eureka/
+#      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8061/eureka/
