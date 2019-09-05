@@ -2,9 +2,9 @@ spring:
   application:
     name: webapp
   datasource:
-    url: jdbc:mysql://mysql:3306/capstone?serverTimezone=UTC
+    url: jdbc:mysql://database:3306/capstone?serverTimezone=UTC
     username: root
-    password: garage2
+    password: root
     driverClassName: com.mysql.jdbc.Driver
 
   jpa:
@@ -42,4 +42,4 @@ eureka:
   client:
     serviceUrl:
 #      defaultZone: http://localhost:8761/eureka/
-      defaultZone: http://eureka-server:8061/eureka/
+      defaultZone: http://eureka-server:8761/eureka/

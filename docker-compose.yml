@@ -1,17 +1,21 @@
 version: '3'
 
 services:
-  mysql:
+  database:
     image: mysql:latest
-    container_name: mysql
+    container_name: database
     restart: always
     environment:
-    - MYSQL_DATABASE=capstone
-    - MUSQL_USER=root
-    - MYSQL_PASSWORD=root
-    - MYSQL_ROOT_PASSWORD=root
+      MYSQL_DATABASE: 'capstone'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
     volumes:
     - mysql-db:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
       interval: 10s
@@ -22,16 +26,16 @@ services:
     container_name: webapp
     build: ./Capstone-Web
     depends_on:
-    - mysql
+    - database
     - eukeka-server
     ports:
     - "8082:8082"
-    environment:
-    - DATABASE_HOST=mysql
-    - DATABASE_NAME=capstone
-    - DATABASE_USER=root
-    - DATABASE_PASSWORD=root
-    - DATABASE_PORT=3306
+#    environment:
+#    - DATABASE_HOST=mysql
+#    - DATABASE_NAME=capstone
+#    - DATABASE_USER=root
+#    - DATABASE_PASSWORD=root
+#    - DATABASE_PORT=3306
     healthcheck:
       test: curl -sS http://127.0.0.1 || echo 1
       interval: 5s
