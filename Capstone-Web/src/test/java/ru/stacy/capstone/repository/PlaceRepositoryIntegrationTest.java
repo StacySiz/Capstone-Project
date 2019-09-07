@@ -6,34 +6,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.stacy.capstone.model.User;
+import ru.stacy.capstone.model.Place;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UserRepositoryIntegrationTest {
-
+public class PlaceRepositoryIntegrationTest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private PlaceRepository placeRepository;
 
     @Test
-    public void whenFindByName_thenReturnUser() {
+    public void whenFindByName_thenReturnPlace() {
         //given
-        User user = new User();
-        user.setUsername("TestUsername");
-        user.setEmail("testEmail");
-        entityManager.persist(user);
+        Place place = new Place();
+        place.setName("TestUsername");
+        entityManager.persist(place);
         entityManager.flush();
 
         //when
-        User foundUser = userRepository.findByUsername(user.getUsername());
+        Place foundPlace = placeRepository.findByName(place.getName());
 
         //then
-        assertThat(foundUser.getUsername())
-                .isEqualTo(user.getUsername());
+        assertThat(foundPlace.getName())
+                .isEqualTo(place.getName());
     }
 }

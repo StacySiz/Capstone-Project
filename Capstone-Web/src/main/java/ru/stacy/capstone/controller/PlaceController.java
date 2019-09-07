@@ -1,8 +1,9 @@
-package ru.stacy.capstone.controller.admin;
+package ru.stacy.capstone.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.stacy.capstone.dto.PlaceDTO;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin/places/")
+@RequestMapping("/places/")
 public class PlaceController {
 
     private PlaceService placeService;
@@ -26,18 +27,21 @@ public class PlaceController {
         this.modelMapper = modelMapper;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity addPlace(@RequestBody PlaceDTO placeDTO) {
         Place place = placeService.addPlace(placeDTO);
         return ResponseEntity.ok(modelMapper.map(place, PlaceDTO.class));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deletePlace(@PathVariable Long id) {
         placeService.deletePlace(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/update/{id}")
     public ResponseEntity updatePlace(@RequestBody PlaceDTO placeDTO, @PathVariable Long id) {
         Place place = placeService.updatePlace(placeDTO, id);
