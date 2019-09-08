@@ -3,6 +3,7 @@ package ru.stacy.capstone.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.stacy.capstone.dto.PlaceDTO;
@@ -26,21 +27,21 @@ public class PlaceController {
         this.modelMapper = modelMapper;
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity addPlace(@RequestBody PlaceDTO placeDTO) {
         Place place = placeService.addPlace(placeDTO);
         return ResponseEntity.ok(modelMapper.map(place, PlaceDTO.class));
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity deletePlace(@PathVariable Long id) {
         placeService.deletePlace(id);
         return ResponseEntity.noContent().build();
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity updatePlace(@RequestBody PlaceDTO placeDTO, @PathVariable Long id) {
         Place place = placeService.updatePlace(placeDTO, id);
