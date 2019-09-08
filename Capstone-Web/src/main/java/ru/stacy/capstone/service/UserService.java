@@ -115,16 +115,12 @@ public class UserService {
     }
 
 
-    //TODO move it event service
     public User registerToEvent(HttpServletRequest request, Long eventId) {
         User user = getLoggedInUser(request);
         Event event = eventRepository.findOne(eventId);
         Set<User> participants = event.getParticipants();
         participants.add(user);
         eventRepository.save(event);
-//        Set<Event> activeEvents = user.getActiveEvents();
-//        activeEvents.add(event);
-//        user.setActiveEvents(activeEvents);
         userRepository.save(user);
         return user;
     }

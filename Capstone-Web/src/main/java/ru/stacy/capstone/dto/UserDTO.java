@@ -12,14 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-  
-  @ApiModelProperty(position = 0)
-  private String username;
-  @ApiModelProperty(position = 1)
-  private String email;
+
+    @ApiModelProperty(position = 0)
+    private String username;
+    @ApiModelProperty(position = 1)
+    private String email;
 
     private String password;
 
-  @ApiModelProperty(position = 2)
-  List<Role> roles;
+    @ApiModelProperty(position = 2)
+    private List<Role> roles;
 }
