@@ -2,11 +2,7 @@ package ru.stacy.capstone.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import ru.stacy.capstone.dto.EventDTO;
 import ru.stacy.capstone.model.Event;
 import ru.stacy.capstone.model.Place;
@@ -51,6 +47,7 @@ public class EventService {
                 .description(eventDTO.getDescription())
                 .planner(userRepository.findOne(userPlannerId))
                 .potentialPlaces(places)
+                .price(eventDTO.getPrice())
                 .isFree(eventDTO.isFree())
                 .build();
         if (!event.isFree()) {
@@ -88,5 +85,4 @@ public class EventService {
     public List<Event> findAllEvents() {
         return eventRepository.findAll();
     }
-
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.stacy.capstone.dto.EventDTO;
 import ru.stacy.capstone.model.Event;
+import ru.stacy.capstone.model.User;
 import ru.stacy.capstone.service.EventService;
 import ru.stacy.capstone.service.NotificationService;
 import ru.stacy.capstone.service.UserService;
@@ -37,10 +38,8 @@ public class EventController {
 
     @PostMapping("/create")
     public ResponseEntity createEvent(@RequestBody EventDTO eventDTO, HttpServletRequest request) {
-        //TODO uncoment
-//        User user = userService.getLoggedInUser(request);
-//        Event event = eventService.createEvent(eventDTO, user.getId());
-        Event event = eventService.createEvent(eventDTO, 1L);
+        User user = userService.getLoggedInUser(request);
+        Event event = eventService.createEvent(eventDTO, user.getId());
         return ResponseEntity.ok(modelMapper.map(event, EventDTO.class));
     }
 
@@ -61,7 +60,7 @@ public class EventController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity updateEvent(@RequestBody EventDTO eventDTO, @PathVariable Long id) {
         if (eventService.findEvent(id) != null) {
             Event event = eventService.updateEvent(eventDTO, id);
@@ -70,7 +69,7 @@ public class EventController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteEvent(@PathVariable Long id) {
         if (eventService.findEvent(id) != null) {
             eventService.deleteEvent(id);
