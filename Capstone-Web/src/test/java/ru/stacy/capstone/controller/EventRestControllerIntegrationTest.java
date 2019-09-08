@@ -16,7 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stacy.capstone.dto.EventDTO;
 import ru.stacy.capstone.model.Event;
+import ru.stacy.capstone.model.Role;
 import ru.stacy.capstone.model.User;
+import ru.stacy.capstone.repository.UserRepository;
+import ru.stacy.capstone.security.JwtTokenProvider;
 import ru.stacy.capstone.service.EventService;
 import ru.stacy.capstone.service.UserService;
 
@@ -48,12 +51,20 @@ public class EventRestControllerIntegrationTest {
     @MockBean
     private ModelMapper modelMapper;
 
+    @MockBean
+    private UserRepository userRepository;
+
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     private Event mockedEvent;
     private EventDTO eventDTO;
     private List<Event> allEvents;
+    private String token = null;
+    private User user;
 
     private static final ObjectMapper om = new ObjectMapper();
 
@@ -79,7 +90,17 @@ public class EventRestControllerIntegrationTest {
         when(userService.getLoggedInUser(Matchers.any())).thenReturn(new User());
         when(eventService.findEvent(1L)).thenReturn(mockedEvent);
 
+        user = new User();
+        user.setEmail("testEmail");
+        user.setUsername("test");
+        user.setPassword("testPassword");
+        user.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+
         given(modelMapper.map(mockedEvent, EventDTO.class)).willReturn(eventDTO);
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        token = tokenProvider.createToken(user.getUsername(), Role.ROLE_ADMIN);
     }
 
     @Test
@@ -98,7 +119,9 @@ public class EventRestControllerIntegrationTest {
     public void givenEvent_whenGetEventById_thenReturnJson() throws Exception {
         given(eventService.findEvent(1L)).willReturn(mockedEvent);
 
-        this.mockMvc.perform(get("/event/{id}", 1L)).andDo(print())
+        this.mockMvc.perform(get("/event/{id}", 1L)
+                .header("Authorization", "Bearer " + token))
+                .andDo(print())
                 .andExpect(jsonPath("$.name", is(mockedEvent.getName())))
                 .andExpect(jsonPath("$.description", is(mockedEvent.getDescription())))
                 .andExpect(jsonPath("$.price", is(mockedEvent.getPrice())))
@@ -113,6 +136,7 @@ public class EventRestControllerIntegrationTest {
 
         mockMvc.perform(post("/event/create")
                 .content(om.writeValueAsString(eventDTO))
+                .header("Authorization", "Bearer " + token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is(mockedEvent.getName())))
                 .andExpect(jsonPath("$.description", is(mockedEvent.getDescription())))
@@ -127,6 +151,7 @@ public class EventRestControllerIntegrationTest {
 
         mockMvc.perform(put("/event/{id}", 1L)
                 .content(om.writeValueAsString(eventDTO))
+                .header("Authorization", "Bearer " + token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is(mockedEvent.getName())))
                 .andExpect(jsonPath("$.description", is(mockedEvent.getDescription())))
@@ -139,7 +164,8 @@ public class EventRestControllerIntegrationTest {
     public void deleteEvent() throws Exception {
         doNothing().when(eventService).deleteEvent(1L);
 
-        mockMvc.perform(delete("/event/{id}", 1L))
+        mockMvc.perform(delete("/event/{id}", 1L)
+                .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
     }
 }

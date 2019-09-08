@@ -15,6 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.stacy.capstone.dto.PlaceDTO;
 import ru.stacy.capstone.model.Place;
+import ru.stacy.capstone.model.Role;
+import ru.stacy.capstone.model.User;
+import ru.stacy.capstone.repository.UserRepository;
+import ru.stacy.capstone.security.JwtTokenProvider;
 import ru.stacy.capstone.service.PlaceService;
 
 import java.util.Collections;
@@ -42,9 +46,18 @@ public class PlaceRestControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     private Place mockedPlace;
     private PlaceDTO placeDTO;
     private List<Place> places;
+    private User user;
+    private String token = null;
+
 
     private static final ObjectMapper om = new ObjectMapper();
 
@@ -69,6 +82,15 @@ public class PlaceRestControllerIntegrationTest {
 
         given(placeService.findAllPlaces()).willReturn(places);
         given(placeService.addPlace(placeDTO)).willReturn(mockedPlace);
+
+        user = new User();
+        user.setEmail("testEmail");
+        user.setUsername("test");
+        user.setPassword("testPassword");
+        user.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        token = tokenProvider.createToken(user.getUsername(), Role.ROLE_ADMIN);
         given(modelMapper.map(mockedPlace, PlaceDTO.class)).willReturn(placeDTO);
     }
 
@@ -85,7 +107,8 @@ public class PlaceRestControllerIntegrationTest {
 
     @Test
     public void givenPlace_whenGetPlaceById_thenReturnJson() throws Exception {
-        mockMvc.perform(get("/places/{id}", 1L))
+        mockMvc.perform(get("/places/{id}", 1L)
+                .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(mockedPlace.getName())))
                 .andExpect(jsonPath("$.address", is(mockedPlace.getAddress())))
@@ -97,6 +120,7 @@ public class PlaceRestControllerIntegrationTest {
     @Test
     public void savePlace_thenReturnJson() throws Exception {
         mockMvc.perform(post("/places/add")
+                .header("Authorization", "Bearer " + token)
                 .content(om.writeValueAsString(placeDTO))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is(mockedPlace.getName())))
@@ -111,6 +135,7 @@ public class PlaceRestControllerIntegrationTest {
     public void updatePlace_thenReturnJson() throws Exception {
         mockMvc.perform(put("/places/{id}", 1L)
                 .content(om.writeValueAsString(placeDTO))
+                .header("Authorization", "Bearer " + token)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is(mockedPlace.getName())))
                 .andExpect(jsonPath("$.address", is(mockedPlace.getAddress())))
@@ -124,7 +149,8 @@ public class PlaceRestControllerIntegrationTest {
     public void deletePlace() throws Exception {
         doNothing().when(placeService).deletePlace(1L);
 
-        mockMvc.perform(delete("/places/{id}", 1L))
+        mockMvc.perform(delete("/places/{id}", 1L)
+                .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
     }
 }

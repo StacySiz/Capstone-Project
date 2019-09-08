@@ -32,9 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/signUp").permitAll()
                 .antMatchers("/event/all").permitAll()
                 .antMatchers("/places/all").permitAll()
-//        .anyRequest().authenticated();
-                .anyRequest().permitAll();//TODO remove
-//    http.exceptionHandling().accessDeniedPage("/login");
+                .anyRequest().authenticated();
 
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
     }
