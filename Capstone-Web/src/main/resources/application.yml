@@ -12,18 +12,14 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        #        use-new-id-generator-mappings: true
         dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: true
-          #                  id:
-          #                    new_generator_mappings: false
-          #          TODO what is it
+
 
 security:
   jwt:
     token:
-      secret-key: secret-key
-      #      TODO change
+      secret-key: mBdjfQ8Y7H7gxJcL7Xd8qs
       expire-length: 3600000 #1 hour
 
 UserController:
