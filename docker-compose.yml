@@ -27,7 +27,7 @@ services:
     build: ./Capstone-Web
     depends_on:
     - database
-    - eukeka-server
+    - eureka-server
     ports:
     - "8082:8082"
 #    environment:
@@ -47,7 +47,7 @@ services:
     build: ./Capstone-Email
     depends_on:
       - webapp
-      - eukeka-server
+      - eureka-server
     ports:
       - "8081:8081"
     healthcheck:
@@ -60,12 +60,12 @@ services:
     container_name: zuul
     build: ./Capstone-Zuul
     depends_on:
-    - eukeka-server
+    - eureka-server
     ports:
       - "8080:8080"
 
 
-  eukeka-server:
+  eureka-server:
     container_name: eureka-server
     build: ./Capstone-Eureka-Server
     ports:
